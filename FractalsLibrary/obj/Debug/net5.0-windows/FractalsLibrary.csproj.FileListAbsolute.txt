@@ -1,0 +1,12 @@
+D:\Development\C#\Пиргрейды\Фракталы\FractalsLibrary\bin\Debug\net5.0-windows\FractalsLibrary.deps.json
+D:\Development\C#\Пиргрейды\Фракталы\FractalsLibrary\bin\Debug\net5.0-windows\FractalsLibrary.dll
+D:\Development\C#\Пиргрейды\Фракталы\FractalsLibrary\bin\Debug\net5.0-windows\ref\FractalsLibrary.dll
+D:\Development\C#\Пиргрейды\Фракталы\FractalsLibrary\bin\Debug\net5.0-windows\FractalsLibrary.pdb
+D:\Development\C#\Пиргрейды\Фракталы\FractalsLibrary\obj\Debug\net5.0-windows\FractalsLibrary.csproj.AssemblyReference.cache
+D:\Development\C#\Пиргрейды\Фракталы\FractalsLibrary\obj\Debug\net5.0-windows\FractalsLibrary.GeneratedMSBuildEditorConfig.editorconfig
+D:\Development\C#\Пиргрейды\Фракталы\FractalsLibrary\obj\Debug\net5.0-windows\FractalsLibrary.AssemblyInfoInputs.cache
+D:\Development\C#\Пиргрейды\Фракталы\FractalsLibrary\obj\Debug\net5.0-windows\FractalsLibrary.AssemblyInfo.cs
+D:\Development\C#\Пиргрейды\Фракталы\FractalsLibrary\obj\Debug\net5.0-windows\FractalsLibrary.csproj.CoreCompileInputs.cache
+D:\Development\C#\Пиргрейды\Фракталы\FractalsLibrary\obj\Debug\net5.0-windows\FractalsLibrary.dll
+D:\Development\C#\Пиргрейды\Фракталы\FractalsLibrary\obj\Debug\net5.0-windows\ref\FractalsLibrary.dll
+D:\Development\C#\Пиргрейды\Фракталы\FractalsLibrary\obj\Debug\net5.0-windows\FractalsLibrary.pdb

@@ -1,0 +1,211 @@
+﻿<Window x:Class="Fractals.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Fractals"
+        mc:Ignorable="d"
+        Title="Fractals" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="10*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Name="Menu" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="13*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0"
+                       Name="Choose"
+                       Content="Выбор фрактала:"
+                       VerticalAlignment="Center"
+                />
+                <ComboBox Grid.Column="1"
+                    Name="ComboBoxAvaibleFractals"
+                    ItemsSource="{Binding Path=AvailableFractals}"
+                    Text="My Cities"
+                    IsReadOnly="true"
+                    SelectionChanged="RenderNewFractal"
+                    SelectedIndex="0"
+                    VerticalAlignment="Center"
+                />
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="6*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0"
+                       Content="Глубина рекурсии:"
+                       VerticalAlignment="Center"
+                />
+                <TextBox Grid.Column="1"
+                        Name="TextBoxMaxRecursionDepth"
+                        PreviewTextInput="PreviewInput"
+                        TextChanged="OnMaxRecursionDepthChanged"
+                        Width="50"
+                        VerticalAlignment="Center"
+                />
+                <Label Grid.Column="2"
+                       Name="LabelMaxRecursionDepth"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                />
+            </Grid>
+            
+            <Label Grid.Row="2"
+                   Content="Цвет элементов первой итерации:"
+                   VerticalAlignment="Center"
+            />
+            
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0"
+                       Content="R:"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                />
+                <TextBox Grid.Column="1"
+                        Name="TextBoxStartColorR"
+                        PreviewTextInput="PreviewInput"
+                        TextChanged="OnColorChanged"
+                        Width="50"
+                        VerticalAlignment="Center"
+                />
+                <Label Grid.Column="2"
+                       Content="G:"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                />
+                <TextBox Grid.Column="3"
+                        Name="TextBoxStartColorG"
+                        PreviewTextInput="PreviewInput"
+                        TextChanged="OnColorChanged"
+                        Width="50"
+                        VerticalAlignment="Center"
+                />
+                <Label Grid.Column="4"
+                       Content="B:"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                />
+                <TextBox Grid.Column="5"
+                        Name="TextBoxStartColorB"
+                         PreviewTextInput="PreviewInput"
+                        TextChanged="OnColorChanged"
+                        Width="50"
+                        VerticalAlignment="Center"
+                />
+            </Grid>
+
+            <Label Grid.Row="4"
+                   Content="Цвет элементов последней итерации:"
+                   VerticalAlignment="Center"
+            />
+
+            <Grid Grid.Row="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0"
+                       Content="R:"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                />
+                <TextBox Grid.Column="1"
+                        Name="TextBoxEndColorR"
+                        PreviewTextInput="PreviewInput"
+                        TextChanged="OnColorChanged"
+                        Width="50"
+                        VerticalAlignment="Center"
+                />
+                <Label Grid.Column="2"
+                       Content="G:"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                />
+                <TextBox Grid.Column="3"
+                        Name="TextBoxEndColorG"
+                        PreviewTextInput="PreviewInput"
+                        TextChanged="OnColorChanged"
+                        Width="50"
+                        VerticalAlignment="Center"
+                />
+                <Label Grid.Column="4"
+                       Content="B:"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                />
+                <TextBox Grid.Column="5"
+                        Name="TextBoxEndColorB"
+                         PreviewTextInput="PreviewInput"
+                        TextChanged="OnColorChanged"
+                        Width="50"
+                        VerticalAlignment="Center"
+                />
+            </Grid>
+
+            <Grid Grid.Row="6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="13*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0"
+                       Name="Choose1"
+                       Content="Выбор фрактала:"
+                       VerticalAlignment="Center"
+                />
+                <ComboBox Grid.Column="1"
+                    Name="ComboBoxAvaibleFractals1"
+                    ItemsSource="{Binding Path=AvailableFractals}"
+                    Text="My Cities"
+                    IsReadOnly="true"
+                    SelectionChanged="RenderNewFractal"
+                    SelectedIndex="0"
+                    VerticalAlignment="Center"
+                />
+            </Grid>
+
+            <Button Grid.Row="7"
+                    Content="Сохранить"
+                    VerticalAlignment="Center"
+                    Margin="5 0 0 0"
+            />
+
+        </Grid>
+        <Canvas Grid.Column="1"
+                Height="400"
+                Width="400"
+                Background="AntiqueWhite"
+                Name="Sketch"
+                ClipToBounds="True"
+        />
+    </Grid>
+</Window>
