@@ -183,29 +183,39 @@
                        VerticalAlignment="Center"
                 />
                 <ComboBox Grid.Column="1"
-                    Name="ComboBoxAvaibleFractals1"
-                    ItemsSource="{Binding Path=AvailableFractals}"
+                    Name="ComboBoxZoom"
                     Text="My Cities"
                     IsReadOnly="true"
-                    SelectionChanged="RenderNewFractal"
-                    SelectedIndex="0"
+                    SelectionChanged="OnZoomChanged"
                     VerticalAlignment="Center"
-                />
+                >
+                    <ComboBoxItem IsSelected="True">
+                        <TextBlock>No zoom</TextBlock>
+                    </ComboBoxItem>
+                    <TextBlock>Zoom 2</TextBlock>
+                    <TextBlock>Zoom 3</TextBlock>
+                    <TextBlock>Zoom 5</TextBlock>
+                </ComboBox>
             </Grid>
 
             <Button Grid.Row="7"
                     Content="Сохранить"
                     VerticalAlignment="Center"
                     Margin="5 0 0 0"
+                    Click="ButtonSaveClick"
             />
 
         </Grid>
-        <Canvas Grid.Column="1"
+        <ScrollViewer Grid.Column="1"
+                      Name="ScrollViewerCanvas">
+
+            <Canvas
                 Height="400"
                 Width="400"
                 Background="AntiqueWhite"
                 Name="Sketch"
                 ClipToBounds="True"
         />
+        </ScrollViewer>
     </Grid>
 </Window>

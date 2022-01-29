@@ -16,6 +16,7 @@ using FractalsLibrary;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 
 namespace Fractals
 {
@@ -26,11 +27,15 @@ namespace Fractals
     {
         private ViewModel viewModel = new ViewModel();
         private Fractal currFractal;
+        private double StartWidth;
+        private double StartHeight;
 
         public MainWindow()
         {
             InitializeComponent();
             Fractal.Sketch = Sketch;
+            StartWidth = Sketch.Width;
+            StartHeight = Sketch.Height;
             DataContext = viewModel;
             MaxWidth = SystemParameters.PrimaryScreenWidth;
             MaxHeight = SystemParameters.PrimaryScreenHeight;
@@ -87,7 +92,7 @@ namespace Fractals
         {
             try
             {
-                if (sizeInfo.PreviousSize.Height == 0 )
+                if (sizeInfo.PreviousSize.Height == 0)
                 {
                     return;
                 }
@@ -146,6 +151,58 @@ namespace Fractals
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Непридвиденная ошибка");
+            }
+        }
+
+        private void OnZoomChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Sketch == null)
+            {
+                return;
+            }
+            double scale = ComboBoxZoom.SelectedIndex switch
+            {
+                0 => 1,
+                1 => 2,
+                2 => 3,
+                3 => 5,
+
+            };
+            if (scale == 1)
+            {
+                ScrollViewerCanvas.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+                ScrollViewerCanvas.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            }
+            else
+            {
+                ScrollViewerCanvas.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+                ScrollViewerCanvas.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible;
+            }
+            Sketch.Width = StartWidth * scale;
+            Sketch.Height = StartHeight * scale;
+            currFractal.StartRendering();
+        }
+
+        private void ButtonSaveClick(object sender, RoutedEventArgs e)
+        {
+
+            Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+            saveFileDialog.DefaultExt = ".PNG";
+            saveFileDialog.Filter = "Image (.PNG)|*.PNG";
+            if (saveFileDialog.ShowDialog() != true)
+            {
+                return;
+            }
+            RenderTargetBitmap bmp = new RenderTargetBitmap((int)Sketch.ActualWidth * 300 / 96, (int)Sketch.ActualHeight * 300 / 96, 300, 300, PixelFormats.Pbgra32);
+            Size size = Sketch.RenderSize;
+            Sketch.Measure(size);
+            Sketch.Arrange(new Rect(size));
+            bmp.Render(Sketch);
+            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bmp));
+            using (FileStream file = File.Create(saveFileDialog.FileName))
+            {
+                encoder.Save(file);
             }
         }
     }

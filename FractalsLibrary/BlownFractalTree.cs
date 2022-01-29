@@ -57,12 +57,13 @@ namespace FractalsLibrary
             }
         }
 
-        public static double LineLenght { get; set; } = 100;
+        public static double LineLenght { get; set; }
 
         public override void StartRendering()
         {
             Sketch.Children.Clear();
             RenderSettings();
+            LineLenght = Sketch.Height / 4;
             Line line = new Line
             {
                 X1 = Sketch.Width / 2,
