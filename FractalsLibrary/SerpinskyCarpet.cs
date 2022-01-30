@@ -9,10 +9,19 @@ using System.Windows.Shapes;
 
 namespace FractalsLibrary
 {
+    /// <summary>
+    /// Фрактал "Ковёр Серпинского".
+    /// </summary>
     public class SerpinskyCarpet : Fractal
     {
+        /// <summary>
+        /// Максимальная допустимая глубина рекурсии.
+        /// </summary>
         public override int MaxAvaibleRecursionDepth { get; } = 6;
 
+        /// <summary>
+        /// Метод начала отрисовки фрактала.
+        /// </summary>
         public override void StartRendering()
         {
             Sketch.Children.Clear();
@@ -20,6 +29,12 @@ namespace FractalsLibrary
             Rendering(startPoint, Sketch.Width/3,0);
         }
 
+        /// <summary>
+        /// Метод для рекурсивной отрисовки фрактала.
+        /// </summary>
+        /// <param name="centre">Центр нового ковра.</param>
+        /// <param name="size">Размер стороны нового ковра.</param>
+        /// <param name="recursionDepth">Текущая глубина рекурсии.</param>
         private void Rendering(Point centre, double size, int recursionDepth)
         {
             if (recursionDepth >= MaxRecursionDepth)
@@ -45,6 +60,10 @@ namespace FractalsLibrary
             Rendering(new Point(centre.X + size, centre.Y + size), size / 3, recursionDepth + 1);
         }
 
+        /// <summary>
+        /// Метод, возвращающий название фрактала.
+        /// </summary>
+        /// <returns>Название фрактала.</returns>
         public override string ToString() => "Ковёр Серпинского";
     }
 

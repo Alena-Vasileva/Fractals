@@ -9,11 +9,24 @@ using System.Windows.Shapes;
 
 namespace FractalsLibrary
 {
+    /// <summary>
+    /// Фрактал "Множество Кантора".
+    /// </summary>
     public class CantorSet : Fractal
     {
+        /// <summary>
+        /// Максимальная допустимая глубина рекурсии.
+        /// </summary>
         public override int MaxAvaibleRecursionDepth { get; } = 10;
 
+        /// <summary>
+        /// Расстояние между отрезками.
+        /// </summary>
         private double distance = 20;
+
+        /// <summary>
+        /// Свойство, задающее поведения расстояния между отрезками.
+        /// </summary>
         public double Distance
         {
             get => distance;
@@ -29,8 +42,14 @@ namespace FractalsLibrary
             }
         }
 
+        /// <summary>
+        /// Толщина отрезков.
+        /// </summary>
         private double thickness = 3;
 
+        /// <summary>
+        /// Метод начала отрисовки фрактала.
+        /// </summary>
         public override void StartRendering()
         {
             Sketch.Children.Clear();
@@ -48,6 +67,11 @@ namespace FractalsLibrary
             Rendering(line, 1);
         }
 
+        /// <summary>
+        /// Метод для рекурсивной отрисовки фрактала.
+        /// </summary>
+        /// <param name="baseLine">Базовый отрезок.</param>
+        /// <param name="recursionDepth">Текущая глубина рекурсии.</param>
         private void Rendering(Line baseLine, int recursionDepth)
         {
             if (recursionDepth >= MaxRecursionDepth)
@@ -79,8 +103,15 @@ namespace FractalsLibrary
             Rendering(lines[1], recursionDepth + 1);
         }
 
+        /// <summary>
+        /// Метод, возвращающий название фрактала.
+        /// </summary>
+        /// <returns>Название фрактала.</returns>
         public override string ToString() => "Множество Кантора";
 
+        /// <summary>
+        /// Метод для отрисовки специфических настроек фрактала.
+        /// </summary>
         private void RenderSettings()
         {
             System.Windows.Controls.TextBox textBoxDistance = new();
@@ -98,6 +129,10 @@ namespace FractalsLibrary
             Sketch.Children.Add(settings);
         }
 
+        /// <summary>
+        /// Выставление настроек элемента.
+        /// </summary>
+        /// <param name="textBox">Ссылка на элемент.</param>
         private void TextBoxDistanceKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == System.Windows.Input.Key.Enter)

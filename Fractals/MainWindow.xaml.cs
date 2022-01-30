@@ -39,7 +39,7 @@ namespace Fractals
             DataContext = viewModel;
             MaxWidth = SystemParameters.PrimaryScreenWidth;
             MaxHeight = SystemParameters.PrimaryScreenHeight;
-            MinWidth = SystemParameters.PrimaryScreenHeight / 2;
+            MinWidth = SystemParameters.PrimaryScreenWidth / 2;
             MinHeight = SystemParameters.PrimaryScreenHeight / 2;
         }
 
@@ -198,7 +198,7 @@ namespace Fractals
             Sketch.Measure(size);
             Sketch.Arrange(new Rect(size));
             bmp.Render(Sketch);
-            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            PngBitmapEncoder encoder = new();
             encoder.Frames.Add(BitmapFrame.Create(bmp));
             using (FileStream file = File.Create(saveFileDialog.FileName))
             {
