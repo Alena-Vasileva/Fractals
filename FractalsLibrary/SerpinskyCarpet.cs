@@ -17,7 +17,7 @@ namespace FractalsLibrary
         /// <summary>
         /// Максимальная допустимая глубина рекурсии.
         /// </summary>
-        public override int MaxAvaibleRecursionDepth { get; } = 6;
+        public override int MaxAvaibleRecursionDepth { get; } = 5;
 
         /// <summary>
         /// Метод начала отрисовки фрактала.

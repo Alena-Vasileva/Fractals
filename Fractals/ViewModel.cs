@@ -10,8 +10,14 @@ using FractalsLibrary;
 
 namespace Fractals
 {
+    /// <summary>
+    /// Класс для привязки данных о доступных фракталах.
+    /// </summary>
     internal class ViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Конструктор, задающий доступные фракталы.
+        /// </summary>
         public ViewModel()
         {
             list.Add(new BlownFractalTree());
@@ -22,20 +28,37 @@ namespace Fractals
             availableFractals = new CollectionView(list);
         }
 
+        /// <summary>
+        /// Список доступных фракталов.
+        /// </summary>
         public IList<Fractal> list = new List<Fractal>();
 
+        /// <summary>
+        /// Коллекция доступных фракталов.
+        /// </summary>
         private readonly CollectionView availableFractals;
 
+        /// <summary>
+        /// Свойство для доступа к коллекции доступных фракталов.
+        /// </summary>
         public CollectionView AvailableFractals
         {
             get => availableFractals;
         }
 
+        /// <summary>
+        /// Событие для реагирования на изменения свойства.
+        /// </summary>
+        /// <param name="propertyName">Имя свойства.</param>
         private void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        /// <summary>
+        /// События изменения свойства.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -53,7 +53,6 @@ namespace FractalsLibrary
         public override void StartRendering()
         {
             Sketch.Children.Clear();
-            RenderSettings();
             Line line = new Line
             {
                 X1 = 0,
@@ -108,35 +107,5 @@ namespace FractalsLibrary
         /// </summary>
         /// <returns>Название фрактала.</returns>
         public override string ToString() => "Множество Кантора";
-
-        /// <summary>
-        /// Метод для отрисовки специфических настроек фрактала.
-        /// </summary>
-        private void RenderSettings()
-        {
-            System.Windows.Controls.TextBox textBoxDistance = new();
-            textBoxDistance.Text = Distance.ToString();
-            textBoxDistance.KeyUp += TextBoxDistanceKeyUp;
-            textBoxDistance.Width = 50;
-            textBoxDistance.VerticalAlignment = VerticalAlignment.Center;
-            textBoxDistance.Margin = new Thickness(5, 5, 0, 5);
-            System.Windows.Controls.Label labelDistance = new();
-            labelDistance.Content = "- Растояние между отрезками";
-            System.Windows.Controls.StackPanel settings = new();
-            settings.Orientation = System.Windows.Controls.Orientation.Horizontal;
-            settings.Children.Add(textBoxDistance);
-            settings.Children.Add(labelDistance);
-            Sketch.Children.Add(settings);
-        }
-
-        /// <summary>
-        /// Выставление настроек элемента.
-        /// </summary>
-        /// <param name="textBox">Ссылка на элемент.</param>
-        private void TextBoxDistanceKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
-                Distance = int.Parse(((System.Windows.Controls.TextBox)sender).Text);
-        }
     }
 }

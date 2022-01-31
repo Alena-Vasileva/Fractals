@@ -28,10 +28,10 @@ namespace FractalsLibrary
             get => leftAngle;
             set
             {
-                if (value < 30 || value > 60)
+                if (value < 0 || value > 90)
                 {
                     throw new FractalException("Недопустимый угол наклона левого отрезка.\n" +
-                        "Введите число от 30 до 60.");
+                        "Введите число от 0 до 90.");
                 }
                 leftAngle = value * Math.PI / 180;
                 StartRendering();
@@ -51,10 +51,10 @@ namespace FractalsLibrary
             get => rightAngle;
             set
             {
-                if (value < 30 || value > 60)
+                if (value < 0 || value > 90)
                 {
                     throw new FractalException("Недопустимый угол наклона правого отрезка.\n" +
-                        "Введите число от 30 до 60.");
+                        "Введите число от 0 до 90.");
                 }
                 rightAngle = value * Math.PI / 180;
                 StartRendering();
@@ -95,7 +95,6 @@ namespace FractalsLibrary
         public override void StartRendering()
         {
             Sketch.Children.Clear();
-            RenderSettings();
             LineLenght = Sketch.Height / 4;
             Line line = new Line
             {
@@ -152,95 +151,5 @@ namespace FractalsLibrary
         /// </summary>
         /// <returns>Название фрактала.</returns>
         public override string ToString() => "Обдуваемое фрактальное дерево";
-
-        /// <summary>
-        /// Метод для отрисовки специфических настроек фрактала.
-        /// </summary>
-        private void RenderSettings()
-        {
-            System.Windows.Controls.StackPanel settings = new();
-            System.Windows.Controls.TextBox textBox = new();
-            textBox.Text = Math.Round(LeftAngle / Math.PI * 180).ToString();
-            textBox.KeyUp += TextBoxLeftAngleKeyUp;
-            CustomizeTextBox(ref textBox);
-            System.Windows.Controls.Label label = new();
-            label.Content = "- Угол наклона левого отрезка";
-            settings.Children.Add(SettingsStack(ref textBox, ref label));
-            textBox = new();
-            textBox.Text = Math.Round(RightAngle / Math.PI * 180).ToString();
-            textBox.KeyUp += TextBoxRightAngleKeyUp;
-            CustomizeTextBox(ref textBox);
-            label = new();
-            label.Content = "- Угол наклона правого отрезка";
-            settings.Children.Add(SettingsStack(ref textBox, ref label));
-            textBox = new();
-            textBox.Text = LenghtRatio.ToString();
-            textBox.KeyUp += TextBoxLenghtRatioKeyUp;
-            CustomizeTextBox(ref textBox);
-            label = new();
-            label.Content = "- Отношение длин отрезков";
-            settings.Children.Add(SettingsStack(ref textBox, ref label));
-            Sketch.Children.Add(settings);
-        }
-
-        /// <summary>
-        /// Выставление настроек элемента.
-        /// </summary>
-        /// <param name="textBox">Ссылка на элемент.</param>
-        private void CustomizeTextBox(ref System.Windows.Controls.TextBox textBox)
-        {
-            textBox.Width = 50;
-            textBox.VerticalAlignment = VerticalAlignment.Center;
-            textBox.Margin = new Thickness(5, 5, 0, 5);
-        }
-
-        /// <summary>
-        /// Создание комбинации из поля ввода и подписи.
-        /// </summary>
-        /// <param name="textBox">Поле ввода.</param>
-        /// <param name="label">Подпись.</param>
-        /// <returns>Стэк из поля ввода и подписи.</returns>
-        private System.Windows.Controls.StackPanel SettingsStack(ref System.Windows.Controls.TextBox textBox,
-            ref System.Windows.Controls.Label label)
-        {
-            System.Windows.Controls.StackPanel settings = new();
-            settings.Orientation = System.Windows.Controls.Orientation.Horizontal;
-            settings.Children.Add(textBox);
-            settings.Children.Add(label);
-            return settings;
-        }
-
-        /// <summary>
-        /// Привенение настроек по нажатию клавиши Enter.
-        /// </summary>
-        /// <param name="sender">Ссылка на поле ввода.</param>
-        /// <param name="e">Дополнительные сведения.</param>
-        private void TextBoxLeftAngleKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
-                LeftAngle = double.Parse(((System.Windows.Controls.TextBox)sender).Text);
-        }
-
-        /// <summary>
-        /// Привенение настроек по нажатию клавиши Enter.
-        /// </summary>
-        /// <param name="sender">Ссылка на поле ввода.</param>
-        /// <param name="e">Дополнительные сведения.</param>
-        private void TextBoxRightAngleKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
-                RightAngle = double.Parse(((System.Windows.Controls.TextBox)sender).Text);
-        }
-
-        /// <summary>
-        /// Привенение настроек по нажатию клавиши Enter.
-        /// </summary>
-        /// <param name="sender">Ссылка на поле ввода.</param>
-        /// <param name="e">Дополнительные сведения.</param>
-        private void TextBoxLenghtRatioKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
-                LenghtRatio = double.Parse(((System.Windows.Controls.TextBox)sender).Text);
-        }
     }
 }
