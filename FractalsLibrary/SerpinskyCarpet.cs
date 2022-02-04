@@ -33,8 +33,8 @@ namespace FractalsLibrary
         /// Метод для рекурсивной отрисовки фрактала.
         /// </summary>
         /// <param name="centre">Центр нового ковра.</param>
-        /// <param name="size">Размер стороны нового ковра.</param>
-        /// <param name="recursionDepth">Текущая глубина рекурсии.</param>
+        /// <param name="size">Размер стороны нового /\ковра.</param>
+        /// <param name="recursionDepth">Текущая глу/__\бина рекурсии.</param>
         private void Rendering(Point centre, double size, int recursionDepth)
         {
             if (recursionDepth >= MaxRecursionDepth)

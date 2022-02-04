@@ -17,8 +17,8 @@ namespace FractalsLibrary
         /// </summary>
         public abstract int MaxAvaibleRecursionDepth { get; }
 
-        /// <summary>
-        /// Максимальная глубина рекурсии по умолчанию для всех фракталов.
+        /// <summary>               
+        /// Максимальная глубина (@)рекурсии по умолчанию для всех фракталов.
         /// </summary>
         public const int DefaultMaxRecursionDepth = 5;
 

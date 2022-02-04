@@ -50,13 +50,20 @@ namespace Fractals
         /// </summary>
         public MainWindow()
         {
-            InitializeComponent();
-            Fractal.Sketch = Sketch;
-            DataContext = viewModel;
-            MaxWidth = SystemParameters.PrimaryScreenWidth;
-            MaxHeight = SystemParameters.PrimaryScreenHeight;
-            MinWidth = SystemParameters.PrimaryScreenWidth / 2;
-            MinHeight = SystemParameters.PrimaryScreenHeight / 2;
+            try
+            {
+                InitializeComponent();
+                Fractal.Sketch = Sketch;
+                DataContext = viewModel;
+                MaxWidth = SystemParameters.PrimaryScreenWidth;
+                MaxHeight = SystemParameters.PrimaryScreenHeight;
+                MinWidth = SystemParameters.PrimaryScreenWidth / 2;
+                MinHeight = SystemParameters.PrimaryScreenHeight / 2;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Непридвиденная ошибка");
+            }
         }
 
         /// <summary>
@@ -114,14 +121,18 @@ namespace Fractals
         /// </summary>
         private void SetSpecificSettings()
         {
-            if (currFractal is FractalsLibrary.BlownFractalTree)
+            try
             {
-                RenderFractalTreeSettings();
+                if (currFractal is FractalsLibrary.BlownFractalTree)
+                {
+                    RenderFractalTreeSettings();
+                }
+                if (currFractal is FractalsLibrary.CantorSet)
+                {
+                    RenderCantorSetSettings();
+                }
             }
-            if (currFractal is FractalsLibrary.CantorSet)
-            {
-                RenderCantorSetSettings();
-            }
+            catch { }
         }
 
         /// <summary>
@@ -178,9 +189,12 @@ namespace Fractals
                 {
                     return;
                 }
+
                 double sizeRatio = sizeInfo.NewSize.Height / sizeInfo.PreviousSize.Height;
-                StartHeight = Sketch.Height *= sizeRatio;
-                StartWidth = Sketch.Width *= sizeRatio;
+                Sketch.Height *= sizeRatio;
+                Sketch.Width *= sizeRatio;
+                StartHeight = Sketch.Height;
+                StartWidth = Sketch.Width;
                 BlownFractalTree.LineLenght *= sizeRatio;
                 currFractal.StartRendering();
                 SetSpecificSettings();
@@ -200,23 +214,34 @@ namespace Fractals
         /// </summary>
         private void SetDefaultSettings()
         {
-            SliderStartColorR.Value = 255;
-            SliderStartColorG.Value = 0;
-            SliderStartColorB.Value = 51;
-            SliderEndColorR.Value = 255;
-            SliderEndColorG.Value = 205;
-            SliderEndColorB.Value = 255;
-            SliderMaxRecursionDepth.Maximum = currFractal.MaxAvaibleRecursionDepth;
-            SliderMaxRecursionDepth.Value = Fractal.DefaultMaxRecursionDepth;
-            ScrollViewerCanvas.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
-            ScrollViewerCanvas.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            try
+            {
+                SliderStartColorR.Value = 255;
+                SliderStartColorG.Value = 0;
+                SliderStartColorB.Value = 51;
+                SliderEndColorR.Value = 255;
+                SliderEndColorG.Value = 205;
+                SliderEndColorB.Value = 255;
+                SliderMaxRecursionDepth.Maximum = currFractal.MaxAvaibleRecursionDepth;
+                SliderMaxRecursionDepth.Value = Fractal.DefaultMaxRecursionDepth;
+                ScrollViewerCanvas.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+                ScrollViewerCanvas.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            }
+            catch (FractalException ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка при отрисовке фрактала");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Непридвиденная ошибка");
+            }
         }
 
-        /// <summary>
+        /// <summary>                           
         /// Вспомогательный метод для обработки зума фрактала.
-        /// </summary>
-        /// <param name="sender">Ссылка на комбобокс.</param>
-        /// <param name="e">Дополнительные сведения.</param>
+        /// </summary>                          
+        /// <param name="sender">Ссылка на комбо|бокс.</param>
+        /// <param name="e">Дополнительные сведе|ния.</param>
         private void OnZoomChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -225,6 +250,7 @@ namespace Fractals
                 {
                     return;
                 }
+                SetCanvasSize();
                 double scale = ComboBoxZoom.SelectedIndex switch
                 {
                     0 => 1,
@@ -322,6 +348,7 @@ namespace Fractals
                 textBox.Text = (currFractal as BlownFractalTree).LenghtRatio.ToString();
                 textBox.KeyUp += TextBoxLenghtRatioKeyUp;
                 CustomizeTextBox(ref textBox);
+                textBox.PreviewTextInput -= PreviewInput;
                 label = new();
                 label.Content = "- Отношение длин отрезков";
                 settings.Children.Add(SettingsStack(ref textBox, ref label));
@@ -343,10 +370,17 @@ namespace Fractals
         /// <param name="textBox">Ссылка на элемент.</param>
         private void CustomizeTextBox(ref TextBox textBox)
         {
-            textBox.Width = 50;
-            textBox.VerticalAlignment = VerticalAlignment.Center;
-            textBox.Margin = new Thickness(5, 5, 0, 5);
-            textBox.PreviewTextInput += PreviewInput;
+            try
+            {
+                textBox.Width = 50;
+                textBox.VerticalAlignment = VerticalAlignment.Center;
+                textBox.Margin = new Thickness(5, 5, 0, 5);
+                textBox.PreviewTextInput += PreviewInput;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Непридвиденная ошибка");
+            }
         }
 
         /// <summary>
@@ -433,6 +467,10 @@ namespace Fractals
             {
                 MessageBox.Show(ex.Message, "Ошибка при отрисовке фрактала");
             }
+            catch (FormatException ex)
+            {
+                MessageBox.Show("Введите число", "Ошибка ввода");
+            }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Непридвиденная ошибка");
@@ -444,19 +482,31 @@ namespace Fractals
         /// </summary>
         private void RenderCantorSetSettings()
         {
-            TextBox textBoxDistance = new();
-            textBoxDistance.Text = (currFractal as CantorSet).Distance.ToString();
-            textBoxDistance.KeyUp += TextBoxDistanceKeyUp;
-            textBoxDistance.Width = 50;
-            textBoxDistance.VerticalAlignment = VerticalAlignment.Center;
-            textBoxDistance.Margin = new Thickness(5, 5, 0, 5);
-            Label labelDistance = new();
-            labelDistance.Content = "- Растояние между отрезками";
-            StackPanel settings = new();
-            settings.Orientation = Orientation.Horizontal;
-            settings.Children.Add(textBoxDistance);
-            settings.Children.Add(labelDistance);
-            Sketch.Children.Add(settings);
+            try
+            {
+                TextBox textBoxDistance = new();
+                textBoxDistance.Text = (currFractal as CantorSet).Distance.ToString();
+                textBoxDistance.KeyUp += TextBoxDistanceKeyUp;
+                textBoxDistance.Width = 50;
+                textBoxDistance.VerticalAlignment = VerticalAlignment.Center;
+                textBoxDistance.Margin = new Thickness(5, 5, 0, 5);
+                textBoxDistance.PreviewTextInput += PreviewInput;
+                Label labelDistance = new();
+                labelDistance.Content = "- Растояние между отрезками";
+                StackPanel settings = new();
+                settings.Orientation = Orientation.Horizontal;
+                settings.Children.Add(textBoxDistance);
+                settings.Children.Add(labelDistance);
+                Sketch.Children.Add(settings);
+            }
+            catch (FractalException ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка при отрисовке фрактала");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Непридвиденная ошибка");
+            }
         }
 
         /// <summary>
@@ -498,6 +548,10 @@ namespace Fractals
                         (byte)SliderStartColorG.Value, (byte)SliderStartColorB.Value);
                     currFractal.StartRendering();
                     SetSpecificSettings();
+                    Brush brush = new SolidColorBrush(currFractal.StartColor);
+                    SliderStartColorR.Foreground = brush;
+                    SliderStartColorG.Foreground = brush;
+                    SliderStartColorB.Foreground = brush;
                 }
             }
             catch (FractalException ex)
@@ -525,6 +579,10 @@ namespace Fractals
                         (byte)SliderEndColorG.Value, (byte)SliderEndColorB.Value);
                     currFractal.StartRendering();
                     SetSpecificSettings();
+                    Brush brush = new SolidColorBrush(currFractal.EndColor);
+                    SliderEndColorR.Foreground = brush;
+                    SliderEndColorG.Foreground = brush;
+                    SliderEndColorB.Foreground = brush;
                 }
             }
             catch (FractalException ex)
